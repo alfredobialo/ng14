@@ -19,7 +19,7 @@ export interface IUserModel {
   profilePictureUrl?: string;
 
 }
-@Injectable({providedIn:'any'})
+@Injectable({providedIn:'root'})
 export class AuthenticatedUserContextService implements ICurrentUserContext {
   private _isAuth : boolean = false;
   _currentUser : IUserModel | any ;

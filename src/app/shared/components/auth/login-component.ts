@@ -1,16 +1,9 @@
-// noinspection AngularMissingOrInvalidDeclarationInModule
-
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {AuthenticatedUserContextService} from './i-current-user-context';
-import {ActivatedRoute, Router} from '@angular/router';
-import {CommonModule} from "@angular/common";
 
 @Component({
-    standalone: true,
-    imports: [CommonModule],
-    providers: [AuthenticatedUserContextService, FormBuilder],
-    selector: 'login-component',
+    selector: '[login-component], login-component',
     template: `
         <div class="login-container">
             <p class="lead mb-4 text-primary">Login to Continue</p>
