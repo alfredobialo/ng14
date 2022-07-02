@@ -1,7 +1,7 @@
-﻿import {HttpClient} from "@angular/common/http";
+﻿import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {environment} from "../../../environments/environment";
-import {ApiResponse, UserDataModel} from "../models/ApiResponseModel";
+import {ApiResponse, ApiResponseData, UserDataModel} from "../models/ApiResponseModel";
 import {Observable} from "rxjs";
 
 @Injectable()
@@ -13,7 +13,15 @@ export class UserManagerService {
     }
 
     // get User By Id
-    getUserById(userId: string): Observable<ApiResponse<UserDataModel>> {
-        return this.httpClient.get<ApiResponse<UserDataModel>>(`${this.baseUrl}/${userId}`);
+    getUserById(userId: string): Observable<ApiResponseData<UserDataModel>> {
+        return this.httpClient.get<ApiResponseData<UserDataModel>>(`${this.baseUrl}/${userId}`);
+    }
+    
+    createNewUser(userData :  UserDataModel){
+        console.log("Create User with Data", userData);
+        const headers = {"Content-Type" : "application/json", "Accept": "application/json"};
+        return this.httpClient.post<ApiResponse>(`${this.baseUrl}`, userData, {
+            headers
+        });
     }
 }
