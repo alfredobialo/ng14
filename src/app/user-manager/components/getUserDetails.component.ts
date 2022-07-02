@@ -1,7 +1,7 @@
 ﻿import {Component, OnInit} from '@angular/core';
 import {UserManagerService} from "../services/userManagerService";
 import {map} from "rxjs/operators";
-import {ApiResponse, UserDataModel} from "../models/ApiResponseModel";
+import {ApiResponse, ApiResponseData, UserDataModel} from "../models/ApiResponseModel";
 import {Subscription} from "rxjs";
 
 @Component({
@@ -28,19 +28,13 @@ import {Subscription} from "rxjs";
                 <h4>User Id :  {{serverResponse.data.id}}</h4>
                 <p class="text-muted">Email: <a [href]="'mailto:'+serverResponse.data.email">{{serverResponse.data.email}}</a></p>
             </div>
-            <pre>
-                <code>
-                   {{serverResponse | json }} 
-                </code>
-                
-            </pre>
         </div>
     `
 })
 
 export class GetUserDetailsComponent implements OnInit {
 
-    serverResponse!: ApiResponse<UserDataModel>;
+    serverResponse!: ApiResponseData<UserDataModel>;
     loading: boolean = false;
     subscription$!: Subscription;
 
