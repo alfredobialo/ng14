@@ -6,6 +6,7 @@ import {AppModule} from "./app/app.module";
 if (environment.production) {
   enableProdMode();
 }
+
 platformBrowserDynamic().bootstrapModule(AppModule)
     .catch(err => console.log(err))
     .finally(() => console.log("Application Terminated successfully!"))
