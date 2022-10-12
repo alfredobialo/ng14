@@ -31,12 +31,13 @@ import {ChartModule} from "primeng/chart";
 import {MessageModule} from "primeng/message";
 import {ToastModule} from "primeng/toast";
 import {TimelineModule} from "primeng/timeline";
+import {ListboxModule} from "primeng/listbox";
 
 const requiredModules  = [DropdownModule, InputTextModule, InputMaskModule, DynamicDialogModule, InputNumberModule,MultiSelectModule,
     DialogModule, SkeletonModule, SidebarModule, DataViewModule, TableModule, ChipsModule, RadioButtonModule,
     MenuModule, MenubarModule, ProgressBarModule, SpinnerModule, ProgressSpinnerModule, KeyFilterModule, BadgeModule,
     EditorModule,CheckboxModule, TreeSelectModule, PasswordModule, SlideMenuModule, RippleModule, BadgeModule, AvatarModule,
-    TabMenuModule, ChartModule, MessageModule, ToastModule, TimelineModule];
+    TabMenuModule, ChartModule, MessageModule, ToastModule, TimelineModule, ListboxModule];
 
 @NgModule({
     imports: requiredModules,
