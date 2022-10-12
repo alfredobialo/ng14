@@ -4,7 +4,7 @@
     selector : "user-ui",
     template :`
     <div>
-      <p-progressSpinner></p-progressSpinner>
+     
         <h5>Default</h5>
         <p-editor [(ngModel)]="text1" [style]="{'height':'320px'}"></p-editor>
         <p>Value: {{text1||'empty'}}</p>

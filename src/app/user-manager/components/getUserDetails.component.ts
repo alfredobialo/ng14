@@ -9,6 +9,7 @@ import {Subscription} from "rxjs";
     template: `
         <h3>User Details</h3>
         <div class="panel p-5 mt-3">
+            <p-progressSpinner *ngIf="loading"></p-progressSpinner>
             <p>Enter User Id</p>
             <input type="text"
                    [disabled]="loading"

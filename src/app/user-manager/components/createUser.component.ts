@@ -51,6 +51,7 @@ import {Subscription} from "rxjs";
                                placeholder="User's Email">
                     </div>
                     <div class="p-2 mb-2">
+                        <p-progressSpinner *ngIf="processing"></p-progressSpinner>
                         <button
                                 [disabled]="processing"
                                 class="btn btn-primary btn-lg" (click) ="createNewUser($event,frmCreateUser)">
