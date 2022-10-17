@@ -3,6 +3,9 @@ import {UserManagerService} from "../services/userManagerService";
 import {map} from "rxjs/operators";
 import {ApiResponse, ApiResponseData, UserDataModel} from "../models/ApiResponseModel";
 import {Subscription} from "rxjs";
+import {DynamicDialogComponent} from "primeng/dynamicdialog";
+import {Toast} from "primeng/toast";
+import {MessageService} from "primeng/api";
 
 @Component({
     selector: 'user-details',
@@ -30,6 +33,8 @@ import {Subscription} from "rxjs";
                 <p class="text-muted">Email: <a [href]="'mailto:'+serverResponse.data.email">{{serverResponse.data.email}}</a></p>
             </div>
         </div>
+        
+        <p-toast></p-toast>
     `
 })
 
@@ -39,7 +44,7 @@ export class GetUserDetailsComponent implements OnInit {
     loading: boolean = false;
     subscription$!: Subscription;
 
-    constructor(private userManagerService: UserManagerService) {
+    constructor(private userManagerService: UserManagerService, private messageService : MessageService) {
     }
 
     ngOnInit() {
@@ -63,10 +68,17 @@ export class GetUserDetailsComponent implements OnInit {
                 next : (data) => {
                     this.serverResponse  = data;
                 },
-                error : err => console.error(err),
-                complete : () => {
-                    console.log("xhr call completed");
+                error : err =>
+                {
+                    this.messageService.add( {life: 8000, severity:"error", summary:"There is an Issue:", detail:err.error.message, data:err.error});
+                    console.error(err);
                     this.loading = false;
+                }
+                ,
+                complete : () => {
+                    this.loading = false;
+                    console.log("xhr call completed : Set Loading to false");
+                    
                 }
             });
 

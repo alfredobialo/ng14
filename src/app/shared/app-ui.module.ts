@@ -32,6 +32,7 @@ import {MessageModule} from "primeng/message";
 import {ToastModule} from "primeng/toast";
 import {TimelineModule} from "primeng/timeline";
 import {ListboxModule} from "primeng/listbox";
+import {MessageService} from "primeng/api";
 
 const requiredModules  = [DropdownModule, InputTextModule, InputMaskModule, DynamicDialogModule, InputNumberModule,MultiSelectModule,
     DialogModule, SkeletonModule, SidebarModule, DataViewModule, TableModule, ChipsModule, RadioButtonModule,
@@ -42,7 +43,7 @@ const requiredModules  = [DropdownModule, InputTextModule, InputMaskModule, Dyna
 @NgModule({
     imports: requiredModules,
     exports: requiredModules,
-    providers: [],
+    providers: [MessageService],
 })
 export class AppUiModule {
 }
