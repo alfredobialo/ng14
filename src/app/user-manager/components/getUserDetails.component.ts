@@ -3,8 +3,6 @@ import {UserManagerService} from "../services/userManagerService";
 import {map} from "rxjs/operators";
 import {ApiResponse, ApiResponseData, UserDataModel} from "../models/ApiResponseModel";
 import {Subscription} from "rxjs";
-import {DynamicDialogComponent} from "primeng/dynamicdialog";
-import {Toast} from "primeng/toast";
 import {MessageService} from "primeng/api";
 
 @Component({
@@ -70,7 +68,8 @@ export class GetUserDetailsComponent implements OnInit {
                 },
                 error : err =>
                 {
-                    this.messageService.add( {life: 8000, severity:"error", summary:"There is an Issue:", detail:err.error.message, data:err.error});
+                    this.messageService.add( {life: 8000, severity:"error", summary:"There is an Issue:", 
+                        detail:err.error.message ?? err.statusMessage, data:err.error});
                     console.error(err);
                     this.loading = false;
                 }
