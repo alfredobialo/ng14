@@ -46,6 +46,8 @@ export class GetUserDetailsComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.userManagerService.getDevLimitType().subscribe(x =>x);
+        this.userManagerService.getUatLimitType().subscribe(x =>x);
     }
 
     ngOnDestroy() {

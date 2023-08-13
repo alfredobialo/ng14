@@ -3,6 +3,7 @@ import {Injectable} from "@angular/core";
 import {environment} from "../../../environments/environment";
 import {ApiResponse, ApiResponseData, UserDataModel} from "../models/ApiResponseModel";
 import {Observable} from "rxjs";
+import {map} from "rxjs/operators";
 
 @Injectable()
 export class UserManagerService {
@@ -23,5 +24,22 @@ export class UserManagerService {
         return this.httpClient.post<ApiResponse>(`${this.baseUrl}`, userData, {
             headers
         });
+    }
+    
+    getDevLimitType ()
+    {
+        return this.httpClient.get("https://api-dev.equitygroupholdings.com/v2/customer-limit/lookup/limit-type")
+            .pipe(map(x => {
+                console.log("DEV LIMIT TYPE => Check on CORS", x);
+                return x;
+            }));
+    } 
+    getUatLimitType ()
+    {
+        return this.httpClient.get("https://api-uat.equitygroupholdings.com/v2/customer-limit/lookup/limit-type")
+            .pipe(map(x => {
+            console.log("UAT LIMIT TYPE => Check on CORS", x);
+            return x;
+        }));;
     }
 }
