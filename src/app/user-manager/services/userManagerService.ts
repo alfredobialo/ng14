@@ -1,7 +1,8 @@
-﻿import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Injectable} from "@angular/core";
+﻿import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {Injectable, signal} from "@angular/core";
+import {toSignal} from "@angular/core/rxjs-interop";
 import {environment} from "../../../environments/environment";
-import {ApiResponse, ApiResponseData, UserDataModel} from "../models/ApiResponseModel";
+import {ApiResponse, ApiResponseData, IApiQueryCriteria, PagedApiResponseData, UserDataModel} from "../models/ApiResponseModel";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 
@@ -26,20 +27,23 @@ export class UserManagerService {
         });
     }
     
-    getDevLimitType ()
-    {
-        return this.httpClient.get("https://api-dev.equitygroupholdings.com/v2/customer-limit/lookup/limit-type")
-            .pipe(map(x => {
-                console.log("DEV LIMIT TYPE => Check on CORS", x);
-                return x;
-            }));
-    } 
-    getUatLimitType ()
-    {
-        return this.httpClient.get("https://api-uat.equitygroupholdings.com/v2/customer-limit/lookup/limit-type")
-            .pipe(map(x => {
-            console.log("UAT LIMIT TYPE => Check on CORS", x);
-            return x;
-        }));;
+    getUsers(criteria : any) {
+        
+        const queryParams  = new HttpParams({fromObject : criteria} ) ;
+                
+        const listHeaders = new Headers();
+        listHeaders.append("X-App-Name","AngularUser Client");
+        listHeaders.append("Content-Type","application/json");
+        listHeaders.append("Accept","application/json");
+        listHeaders.append("Authorization","Bearer token-value-goes-here");
+        
+        const header =  new HttpHeaders( listHeaders);
+        
+        return this.httpClient.get<PagedApiResponseData<UserDataModel[]>>(`${this.baseUrl}`, {headers : header, params : queryParams});
     }
+    
+    getAllUsers(criteria : any) {
+        return  toSignal<PagedApiResponseData<UserDataModel[]>>(this.getUsers(criteria));
+    }
+    
 }

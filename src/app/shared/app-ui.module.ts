@@ -33,12 +33,13 @@ import {ToastModule} from "primeng/toast";
 import {TimelineModule} from "primeng/timeline";
 import {ListboxModule} from "primeng/listbox";
 import {MessageService} from "primeng/api";
+import {PaginatorModule} from "primeng/paginator";
 
 const requiredModules  = [DropdownModule, InputTextModule, InputMaskModule, DynamicDialogModule, InputNumberModule,MultiSelectModule,
     DialogModule, SkeletonModule, SidebarModule, DataViewModule, TableModule, ChipsModule, RadioButtonModule,
     MenuModule, MenubarModule, ProgressBarModule, SpinnerModule, ProgressSpinnerModule, KeyFilterModule, BadgeModule,
     EditorModule,CheckboxModule, TreeSelectModule, PasswordModule, SlideMenuModule, RippleModule, BadgeModule, AvatarModule,
-    TabMenuModule, ChartModule, MessageModule, ToastModule, TimelineModule, ListboxModule];
+    TabMenuModule, ChartModule, MessageModule, ToastModule, TimelineModule, ListboxModule, PaginatorModule];
 
 @NgModule({
     imports: requiredModules,

@@ -25,11 +25,7 @@ import {MessageService} from "primeng/api";
         <div class="p-5 mt-5 border border-dark">
             <p class="lead">Response from Server</p>
             <hr>
-            <div *ngIf="serverResponse?.success">
-                <h2>Name : {{serverResponse.data.firstName}} {{serverResponse.data.lastName}} </h2>
-                <h4>User Id :  {{serverResponse.data.id}}</h4>
-                <p class="text-muted">Email: <a [href]="'mailto:'+serverResponse.data.email">{{serverResponse.data.email}}</a></p>
-            </div>
+            <user-info [user-data]="serverResponse.data"></user-info>
         </div>
         
         <p-toast></p-toast>
@@ -46,8 +42,6 @@ export class GetUserDetailsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.userManagerService.getDevLimitType().subscribe(x =>x);
-        this.userManagerService.getUatLimitType().subscribe(x =>x);
     }
 
     ngOnDestroy() {

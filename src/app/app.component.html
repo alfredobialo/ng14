@@ -318,14 +318,23 @@
 
 
 <div class="container-lg container-xl container-sm container-fluid p-5" role="main" >
-  <div class="col-12 col-md-9">
-    <v-reverse-text></v-reverse-text>
-    <user-ui></user-ui>
-    <create-user [isEditMode]="true"></create-user>
-    <create-user></create-user>
-    <user-details></user-details>
-    <login-page></login-page>
-  </div>
+ 
+ <div class="row">
+   <div class="col-12 col-md-7">
+     <div class="mb-4"></div>
+     <create-user></create-user>
+     <ng-container *ngIf="selectedUser">
+       <user-info [user-data]="selectedUser"></user-info>
+     </ng-container>
+     
+   </div>
+
+   <div class="col-12 col-md-5">
+     <user-list-component (onUserSelected)="selectedUser = $event"></user-list-component>
+     <user-details></user-details>
+   </div>
+ </div>
+ 
 
 </div>
 
