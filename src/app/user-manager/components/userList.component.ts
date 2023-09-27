@@ -1,4 +1,4 @@
-﻿import {Component, EventEmitter, OnInit, Output, signal} from '@angular/core';
+﻿import {Component, EventEmitter, OnInit, Output, Signal, signal} from '@angular/core';
 import {UserManagerService} from "../services/userManagerService";
 import {IApiQueryCriteria, PagedApiResponseData, UserDataModel} from "../models/ApiResponseModel";
 import {map} from "rxjs/operators";
@@ -63,6 +63,14 @@ export class UserListComponent implements OnInit {
     response!: PagedApiResponseData<UserDataModel[]>;
     selectedUser!: UserDataModel;
     @Output() onUserSelected : EventEmitter<UserDataModel>  = new EventEmitter<UserDataModel>();
+    initValue : PagedApiResponseData<UserDataModel[]> =  {
+        pageSize : 5,
+        totalRecord :10,
+        success : false,
+        message : "No Data",
+        data : []
+    };
+    response$$! : Signal<PagedApiResponseData<UserDataModel[]>> ;
 
     constructor(private userService: UserManagerService, private messageService: MessageService) {
     }
@@ -94,16 +102,8 @@ export class UserListComponent implements OnInit {
             sortBy: "name asc"
         };
 
-        this.userService.getUsers(criteria)
-            .pipe(map(x => {
-                console.log(x);
-                return x;
-            }))
-            .subscribe({
-                next: (x) => {
-                    this.response = x
-                }
-            })
+        this.response$$  = this.userService.getAllUsers(criteria);
+        
     }
 
     gotoPage($event: PaginatorState,txtInput: HTMLInputElement) {

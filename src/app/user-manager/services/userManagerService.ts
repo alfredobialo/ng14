@@ -1,5 +1,5 @@
 ﻿import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {Injectable, signal} from "@angular/core";
+import {Injectable, Signal} from "@angular/core";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {environment} from "../../../environments/environment";
 import {ApiResponse, ApiResponseData, IApiQueryCriteria, PagedApiResponseData, UserDataModel} from "../models/ApiResponseModel";
@@ -10,7 +10,13 @@ import {map} from "rxjs/operators";
 export class UserManagerService {
 
     baseUrl = environment.apiBaseUrls.userManager;
-
+    private initValue : PagedApiResponseData<UserDataModel[]> =  {
+        pageSize : 5,
+        totalRecord :10,
+        success : false,
+        message : "No Data",
+        data : []
+    };
     constructor(private httpClient: HttpClient) {
     }
 
@@ -43,7 +49,9 @@ export class UserManagerService {
     }
     
     getAllUsers(criteria : any) {
-        return  toSignal<PagedApiResponseData<UserDataModel[]>>(this.getUsers(criteria));
+       
+        const res : Signal<PagedApiResponseData<UserDataModel[]>> = toSignal(this.getUsers(criteria), {initialValue : this.initValue});
+        return res;
     }
     
 }
