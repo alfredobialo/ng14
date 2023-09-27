@@ -3,12 +3,14 @@ import {UserManagerService} from "../services/userManagerService";
 import {map} from "rxjs/operators";
 import {ApiResponse, ApiResponseData, UserDataModel} from "../models/ApiResponseModel";
 import {Subscription} from "rxjs";
+import {MessageService} from "primeng/api";
 
 @Component({
     selector: 'user-details',
     template: `
         <h3>User Details</h3>
         <div class="panel p-5 mt-3">
+            <p-progressSpinner *ngIf="loading"></p-progressSpinner>
             <p>Enter User Id</p>
             <input type="text"
                    [disabled]="loading"
@@ -23,12 +25,10 @@ import {Subscription} from "rxjs";
         <div class="p-5 mt-5 border border-dark">
             <p class="lead">Response from Server</p>
             <hr>
-            <div *ngIf="serverResponse?.success">
-                <h2>Name : {{serverResponse.data.firstName}} {{serverResponse.data.lastName}} </h2>
-                <h4>User Id :  {{serverResponse.data.id}}</h4>
-                <p class="text-muted">Email: <a [href]="'mailto:'+serverResponse.data.email">{{serverResponse.data.email}}</a></p>
-            </div>
+            <user-info [user-data]="serverResponse.data"></user-info>
         </div>
+        
+        <p-toast></p-toast>
     `
 })
 
@@ -38,7 +38,7 @@ export class GetUserDetailsComponent implements OnInit {
     loading: boolean = false;
     subscription$!: Subscription;
 
-    constructor(private userManagerService: UserManagerService) {
+    constructor(private userManagerService: UserManagerService, private messageService : MessageService) {
     }
 
     ngOnInit() {
@@ -62,10 +62,18 @@ export class GetUserDetailsComponent implements OnInit {
                 next : (data) => {
                     this.serverResponse  = data;
                 },
-                error : err => console.error(err),
-                complete : () => {
-                    console.log("xhr call completed");
+                error : err =>
+                {
+                    this.messageService.add( {life: 8000, severity:"error", summary:"There is an Issue:", 
+                        detail:err.error.message ?? err.statusText, data:err.error});
+                    console.error(err);
                     this.loading = false;
+                }
+                ,
+                complete : () => {
+                    this.loading = false;
+                    console.log("xhr call completed : Set Loading to false");
+                    
                 }
             });
 

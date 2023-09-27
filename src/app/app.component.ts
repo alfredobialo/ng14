@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, VERSION } from '@angular/core';
+import {UserDataModel} from "./user-manager/models/ApiResponseModel";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Ng14';
+  version = VERSION.full;
+    selectedUser!: UserDataModel;
 }

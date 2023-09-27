@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, Output, SimpleChanges, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {ApiResponse, UserDataModel} from "../models/ApiResponseModel";
 import {UserManagerService} from "../services/userManagerService";
+import {Subscription} from "rxjs";
 
 @Component({
     selector: 'create-user',
@@ -24,27 +25,39 @@ import {UserManagerService} from "../services/userManagerService";
             <div class="mt-2 p-4">
                 <form name="frmCreateUser" #frmCreateUser="ngForm">
                     <div class="p-2 mb-2">
-                        User Id:
-                        <input type="text" class="form-control" [(ngModel)]="user.id" 
-                               name="id" placeholder="Unique user Identity">
+                        User Id: <span class="fw-bolder" *ngIf="isEditMode">{{user.id}}</span>
+                        <input type="text" class="form-control" [(ngModel)]="user.id"
+                               [disabled]="processing" name="id" 
+                               *ngIf="!isEditMode"
+                               placeholder="Unique user Identity">
                     </div> 
                     <div class="p-2 mb-2">
                         First Name:
                         <input type="text" class="form-control" [(ngModel)]="user.firstName"
-                               name="firstName" placeholder="First Name">
+                              [disabled]="processing" name="firstName" placeholder="First Name">
                     </div> 
                     <div class="p-2 mb-2">
                         Last Name:
                         <input type="text" class="form-control" [(ngModel)]="user.lastName"
-                               name="lastName" placeholder="Surname ">
+                              [disabled]="processing" name="lastName" placeholder="Surname ">
                     </div>
                     <div class="p-2 mb-2">
-                        Email Address:
+                        Email Address: <span class="fw-bold">
+                        <a  *ngIf="isEditMode" href="mailto:{{user.email}}"></a>
+                    </span>
                         <input type="text" class="form-control" [(ngModel)]="user.email"
-                               name="email" placeholder="User's Email">
+                              [disabled]="processing" name="email"
+                               *ngIf="!isEditMode"
+                               placeholder="User's Email">
                     </div>
                     <div class="p-2 mb-2">
-                        <button class="btn btn-primary btn-lg" (click) ="createNewUser($event,frmCreateUser)">Create User</button>
+                        <p-progressSpinner *ngIf="processing"></p-progressSpinner>
+                        <button
+                                [disabled]="processing"
+                                class="btn btn-primary btn-lg" (click) ="createNewUser($event,frmCreateUser)">
+                            <span *ngIf="!isEditMode">Create User</span> 
+                            <span *ngIf="isEditMode">Update User</span>
+                        </button>
                     </div>
                     
                 </form>
@@ -53,8 +66,13 @@ import {UserManagerService} from "../services/userManagerService";
     `
 })
 
-export class CreateUserComponent implements OnInit {
+export class CreateUserComponent implements OnInit, OnDestroy, OnChanges {
+    createUserSubscription$! : Subscription ; 
+    updateUserSubscription$! : Subscription ; 
+    
+    processing : boolean  =false;
     user: any = {};
+    @Input() isEditMode = false;
     serverResponse:ApiResponse = {
         success : false,
         message : "Failed Request"
@@ -64,6 +82,17 @@ export class CreateUserComponent implements OnInit {
     constructor(private userService : UserManagerService) {
     }
 
+    ngOnChanges(): void {
+       
+    }
+
+    ngOnDestroy(): void {
+        if(this.createUserSubscription$)
+        {
+            this.createUserSubscription$.unsubscribe();
+        }
+    }
+
     ngOnInit() {
     }
 
@@ -71,7 +100,8 @@ export class CreateUserComponent implements OnInit {
        
         console.log(evt , frm.value, frm.controls); 
         this.initServerCall =  true;
-        this.userService.createNewUser(frm.value)
+        this.processing  = true;
+        this.createUserSubscription$ =  this.userService.createNewUser(frm.value)
             .subscribe( {
                 next : value => {
                     this.serverResponse = value;
@@ -79,10 +109,11 @@ export class CreateUserComponent implements OnInit {
                 error: err => {
                     console.log("Create User Error",err.error);
                     this.serverResponse = err.error;
+                    this.processing  = false;
                 },
                 complete: ()=>{
-                   
+                   this.processing  = false;
                 }
-            })
+            });
     }
 }
