@@ -7,7 +7,7 @@ import {UserDataModel} from "./user-manager/models/ApiResponseModel";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Ng14';
+  title = 'Ng16';
   version = VERSION.full;
     selectedUser!: UserDataModel;
 }

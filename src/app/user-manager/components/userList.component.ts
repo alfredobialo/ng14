@@ -70,7 +70,7 @@ export class UserListComponent implements OnInit {
         message : "No Data",
         data : []
     };
-    response$$! : Signal<PagedApiResponseData<UserDataModel[]>> ;
+    loading: boolean  = false;
 
     constructor(private userService: UserManagerService, private messageService: MessageService) {
     }
@@ -102,7 +102,22 @@ export class UserListComponent implements OnInit {
             sortBy: "name asc"
         };
 
-        this.response$$  = this.userService.getAllUsers(criteria);
+        this.loading = true;
+        this.userService.getUsers(criteria)
+            .pipe(map(x => {
+                console.log(x);
+                return x;
+            }))
+            .subscribe(
+                {
+                    next: x => this.response = x,
+                    error: err => console.log(err),
+                    complete : () => {
+                        console.log("REQUEST COMPLETE, Stop all Progress Status");
+                        this.loading = false;
+                    }
+                }
+            );
         
     }
 

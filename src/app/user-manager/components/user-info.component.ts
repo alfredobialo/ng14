@@ -4,9 +4,9 @@ import {UserDataModel} from "../models/ApiResponseModel";
 @Component({
     selector: 'user-info',
     template: `<div class="p-5 border-light">
-        <h2>Name : {{data.firstName}} {{data.lastName}} </h2>
-        <h4>User Id :  {{data.id}}</h4>
-        <p class="text-muted">Email: <a [href]="'mailto:'+data.email">{{data.email}}</a></p>
+        <h4>Name : {{data.firstName}} {{data.lastName}} </h4>
+        <h5>User Id :  {{data.id}}</h5>
+        <p class="text-muted">Email: {{data.email}}<a [href]="'mailto:'+data.email" target="_blank"><span class="p-confirm-popup-icon"></span></a></p>
     </div>`
 })
 

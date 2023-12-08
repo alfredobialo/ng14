@@ -1,4 +1,4 @@
-﻿import {NgModule } from  "@angular/core";
+﻿import {NgModule , APP_INITIALIZER} from  "@angular/core";
 import {AppComponent} from "./app.component";
 import {LoginPageComponent} from "./shared/components/auth/login-page.component";
 import {LoginComponent} from "./shared/components/auth/login-component";
