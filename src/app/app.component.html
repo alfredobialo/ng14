@@ -320,18 +320,18 @@
 <div class="container-lg container-xl container-sm container-fluid p-5" role="main" >
  
  <div class="row">
-   <div class="col-12 col-md-7">
+   <div class="col-12 col-md-5">
      <div class="mb-4"></div>
-     <create-user></create-user>
+     <create-user />
      <ng-container *ngIf="selectedUser">
-       <user-info [user-data]="selectedUser"></user-info>
+       <user-info [user-data]="selectedUser" />
      </ng-container>
      
    </div>
 
-   <div class="col-12 col-md-5">
-     <user-list-component (onUserSelected)="selectedUser = $event"></user-list-component>
-     <user-details></user-details>
+   <div class="col-12 col-md-7">
+     <user-list-component (onUserSelected)="selectedUser = $event" />
+     <user-details />
    </div>
  </div>
  

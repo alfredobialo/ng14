@@ -9,7 +9,7 @@ import {PaginatorState} from "primeng/paginator";
     selector: 'user-list-component',
     styles:[`
         div.user-list {
-            background-color: #fbfbfb;
+            background-color: #2c2a2a;
             border-radius: 7px;
             box-shadow: 1px 1px 19px #4d4d4c;
             transition: all 400ms;
@@ -18,7 +18,7 @@ import {PaginatorState} from "primeng/paginator";
 
         div.user-list:hover, .user-list:focus, div.user-selected {
             background-color: #b72278;
-            color:  white;
+            color: white;
             box-shadow: 1px -1px 14px #3a3939;
         }
 
@@ -40,7 +40,7 @@ import {PaginatorState} from "primeng/paginator";
                                 Page :{{response?.currentPage}} of {{response?.totalPages}} ( {{response?.totalRecord | number}} Items )
                                 <div *ngFor="let d of response.data" [ngClass]="{'user-selected' : d.id === selectedUser?.id}" 
                                      class="user-list mb-2 p-3" (click)="setSelectedItem(d)">
-                                    <p class="header">{{d.firstName}} {{d.lastName}}</p>
+                                    <p class="header text-light">{{d.firstName}} {{d.lastName}}</p>
                                     <span ><a href="mailto:{{d.email}}" class="link-light link-offset-1-hover">{{d.email}}</a></span>
                                 </div>
                                 
